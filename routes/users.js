@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send({
+router.get('/', function (req, res, next) {
+  var dataArray = [{
     "id": "33",
     "post_author": "2",
     "post_keywords": "0",
@@ -115,7 +115,9 @@ router.get('/', function(req, res, next) {
     "term_id": "1",
     "listorder": "1",
     "status": "1"
-  });
+  }];
+
+  res.send(dataArray);
 });
 
 module.exports = router;
