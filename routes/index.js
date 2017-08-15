@@ -4,6 +4,10 @@ var path = require('path');
 var bodyParser = require('body-parser');
 require('body-parser-xml')(bodyParser);
 var fs = require('fs');
+var request = require('request');
+var specialRequest = request.defaults({
+    strictSSL: false
+});
 var inLicense = fs.readFileSync('./license.txt', 'utf-8');
 var router = express.Router();
 
@@ -28,12 +32,14 @@ router.post('/verify',bodyParser.urlencoded({extended:false}),function(req,res){
     xm:xm
   };
 
-  soap.createClient(url,function(err,client){
-    if(err)
-      // console.error("error:", err);
-      res.status(500).send({
-        err: err
-      });
+  soap.createClient(url, {
+      // wsdl_headers: {Authorization: auth},
+      request : specialRequest
+  }, function(err,client){
+    if(err) {
+        console.error("error:", err);
+        res.status(500).send(err);
+    }
     else {
       client.nciicCheck({
         inLicense: inLicense,
@@ -45,8 +51,10 @@ router.post('/verify',bodyParser.urlencoded({extended:false}),function(req,res){
           '<GMSFHM>320923198909300019</GMSFHM>' +
           '<XM>徐紫微</XM></ROW></ROWS>'
       },function(err,response){
-        if(err)
-          res.status(500).send(err);
+        if(err) {
+            console.log(err);
+            res.status(500).send(err);
+        }
         else{
           res.status(200).send(response);
         }
