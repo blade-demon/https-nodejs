@@ -6,7 +6,9 @@ var fs = require('fs');
 var inLicense = fs.readFileSync('./license.txt', 'utf-8');
 
 var rootCas = require('ssl-root-cas').create();
-
+rootCas
+  .addFile('/etc/letsencrypt/live/ziwei89.xyz/fullchain.pem')
+  .addFile('/etc/letsencrypt/live/ziwei89.xyz/privkey.pem');
 require('https').globalAgent.options.ca = rootCas;
 
 var router = express.Router();
