@@ -45,7 +45,6 @@ router.post('/verify',bodyParser.urlencoded({extended:false}),function(req,res){
         if(err)
           res.status(500).send(err);
         else{
-          // console.log(response);
           res.status(200).send(response);
         }
       })
