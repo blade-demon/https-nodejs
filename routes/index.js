@@ -9,7 +9,7 @@ var inLicense = fs.readFileSync('./license.txt', 'utf-8');
 var rootCas = require('ssl-root-cas').create();
 rootCas
   .addFile(path.join(__dirname, '../ssl/fullchain.pem'))
-  .addFile(path.join(__dirname, '../ssl/privatekey.pem'))
+  .addFile(path.join(__dirname, '../ssl/privkey.pem'))
 ;
 require('https').globalAgent.options.ca = rootCas;
 
