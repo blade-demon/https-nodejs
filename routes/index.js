@@ -30,7 +30,10 @@ router.post('/verify',bodyParser.urlencoded({extended:false}),function(req,res){
 
   soap.createClient(url,function(err,client){
     if(err)
-      console.error("error:", err);
+      // console.error("error:", err);
+      res.status(500).send({
+        err: err
+      });
     else {
       client.nciicCheck({
         inLicense: inLicense,
