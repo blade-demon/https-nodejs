@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var https = require('https');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -12,6 +13,7 @@ var app = express();
 // view engine setup
 app.engine('html', ejs.__express);
 app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'ssl'));
 app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
@@ -29,6 +31,10 @@ app.use(bodyParser.xml({
     explicitArray:false
   }
 }));
+
+var rootCas = require('ssl-root-cas').create();
+rootCas.addFile('fullchain.pem').addFile('privkey.pem');
+require('https').globalAgent.options.ca = rootCas;
 
 app.use('/', index);
 

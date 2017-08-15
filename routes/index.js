@@ -5,20 +5,13 @@ var bodyParser = require('body-parser');
 require('body-parser-xml')(bodyParser);
 var fs = require('fs');
 var inLicense = fs.readFileSync('./license.txt', 'utf-8');
-
-var rootCas = require('ssl-root-cas').create();
-rootCas
-  .addFile(path.join(__dirname, '../ssl/fullchain.pem'))
-  .addFile(path.join(__dirname, '../ssl/privkey.pem'))
-;
-require('https').globalAgent.options.ca = rootCas;
-
 var router = express.Router();
 
-/* GET home page. */
+
 router.get('/', function(req, res) {
   res.render('index', { title: 'Express' });
 });
+
 
 router.post('/verify',bodyParser.urlencoded({extended:false}),function(req,res){
   var input = req.body;
@@ -50,14 +43,14 @@ router.post('/verify',bodyParser.urlencoded({extended:false}),function(req,res){
           '<XM>徐紫微</XM></ROW></ROWS>'
       },function(err,response){
         if(err)
-          console.error(err);
+          res.status(500).send(err);
         else{
-          console.log(response);
-          res.send(response);
+          // console.log(response);
+          res.status(200).send(response);
         }
       })
     }
   });
-})
+});
 
 module.exports = router;
