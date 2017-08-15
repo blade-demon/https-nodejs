@@ -33,7 +33,7 @@ app.use(bodyParser.xml({
 }));
 
 var rootCas = require('ssl-root-cas').create();
-rootCas.addFile('fullchain.pem').addFile('privkey.pem');
+rootCas.addFile(__dirname + 'fullchain.pem').addFile(__dirname + 'privkey.pem');
 require('https').globalAgent.options.ca = rootCas;
 
 app.use('/', index);
