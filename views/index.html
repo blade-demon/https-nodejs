@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
           <label for="xmInput">Name</label>
-          <input type="text" class="form-control" id="xmInput" placeholder="name">
+          <input type="text" class="form-control" id="xmInput" placeholder="Enter name">
         </div>
         <!--<div class="form-check">-->
         <!--<label class="form-check-label">-->
@@ -44,7 +44,7 @@
   function checkVerify () {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.getAllResponseHeaders();
-    xmlhttp.open('POST','http://localhost:3000/verify',true);
+    xmlhttp.open('POST','/verify',true);
     var input = '<?xml version="1.0" encoding="utf-8"?>' +
       '<ROWS><INFO><SBN>上海星游纪信息技术有限公司</SBN></INFO>' +
       '<ROW><GMSFHM>公民身份号码</GMSFHM>' +
