@@ -1,5 +1,6 @@
 var express = require('express');
 var soap = require('soap');
+var path = require('path');
 var bodyParser = require('body-parser');
 require('body-parser-xml')(bodyParser);
 var fs = require('fs');
@@ -7,8 +8,8 @@ var inLicense = fs.readFileSync('./license.txt', 'utf-8');
 
 var rootCas = require('ssl-root-cas').create();
 rootCas
-  .addFile(__dirname + '../ssl/fullchain.pem')
-  .addFile(__dirname + '../ssl/privatekey.pem')
+  .addFile(path.join(__dirname, '../ssl/fullchain.pem'))
+  .addFile(path.join(__dirname, '../ssl/privatekey.pem'))
 ;
 require('https').globalAgent.options.ca = rootCas;
 
