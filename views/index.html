@@ -33,6 +33,23 @@
         <!--</div>-->
         <button type="button" class="btn btn-primary" onclick = "checkVerify()">Submit</button>
       </form>
+  </div>
+    <div class="row">
+        <div class="alert alert-success" role="alert" hidden style="width: 100%; margin: 0 auto">
+            <h4 class="alert-heading">Well done!</h4>
+            <!--<p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>-->
+            <hr>
+            <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+        </div>
+
+        <div class="alert alert-danger" role="alert" hidden style="width: 100%; margin: 0 auto">
+            <h4 class="alert-heading">Unfortunately!</h4>
+            <!--<p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>-->
+            <hr>
+            <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+        </div>
+
+    </div>
 </div>
 
 <!-- Optional JavaScript -->
@@ -43,6 +60,7 @@
 <script type ="text/javascript">
   function checkVerify () {
     var xmlhttp = new XMLHttpRequest();
+    var timedout = false;
     xmlhttp.getAllResponseHeaders();
     xmlhttp.open('POST','/verify',true);
     var input = '<?xml version="1.0" encoding="utf-8"?>' +
@@ -53,12 +71,13 @@
       '<GMSFHM>320923198909300019</GMSFHM>' +
       '<XM>徐紫微</XM></ROW></ROWS>';
     xmlhttp.onreadystatechange = function() {
-      if(xmlhttp.readyState == 4)
-      {
+      if(xmlhttp.readyState == 4) {
         if(xmlhttp.status == 200){
-          alert(xmlhttp.responseText)
+          $(".alert-success").removeAttr("hidden");
+          $(".alert-success p").text(xmlhttp.responseText);
         } else {
-          alert(xmlhttp.status);
+          $(".alert-danger").removeAttr("hidden");
+          $(".alert-danger p").text(xmlhttp.responseText);
         }
       }
     }

@@ -6,10 +6,7 @@ require('body-parser-xml')(bodyParser);
 var fs = require('fs');
 var request = require('request');
 var specialRequest = request.defaults({
-  agentOptions: {
-    ca: fs.readFileSync('ssl/COMODOECCDomainValidationSecureServerCA.crt')
-    // ca: fs.readFileSync('ssl/COMODOECCAddTrustCA.crt')
-  }
+  rejectUnauthorized: false
 });
 var inLicense = fs.readFileSync('./license.txt', 'utf-8');
 var router = express.Router();
@@ -44,16 +41,16 @@ router.post('/verify', bodyParser.urlencoded({extended: false}), function (req, 
       res.status(500).send(err);
     }
     else {
-      client.nciicCheck({
-        inLicense: inLicense,
-        inConditions: '<?xml version="1.0" encoding="utf-8"?>' +
+      client.nciicCheck(
+        inLicense,
+        '<?xml version="1.0" encoding="utf-8"?>' +
         '<ROWS><INFO><SBN>上海星游纪信息技术有限公司</SBN></INFO>' +
         '<ROW><GMSFHM>公民身份号码</GMSFHM>' +
         '<XM>姓名</XM></ROW>' +
         '<ROW FSD="200333" YWLX="是否年满18周岁">' +
         '<GMSFHM>320923198909300019</GMSFHM>' +
         '<XM>徐紫微</XM></ROW></ROWS>'
-      }, function (err, response) {
+      , function (err, response) {
         if (err) {
           console.log(err);
           res.status(500).send(err);
