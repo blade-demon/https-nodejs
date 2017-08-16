@@ -21,18 +21,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.xml({
-  limit:'1MB',
-  xmlParseOptions:{
-    normalize:true,
-    normalizeTags:true,
-    explicitArray:false
-  }
-}));
 
-var rootCas = require('ssl-root-cas').create();
-rootCas.addFile(__dirname + '/ssl/ssl-bundle.crt');
-require('https').globalAgent.options.ca = rootCas;
+// var rootCas = require('ssl-root-cas').create();
+// rootCas.addFile(__dirname + '/ssl/ssl-bundle.crt');
+// require('https').globalAgent.options.ca = rootCas;
 
 app.use('/', index);
 

@@ -6,16 +6,21 @@
 
 var app = require('../app');
 var debug = require('debug')('nodejs-demo-https:server');
-var http = require('http');
+var https = require('https');
+var path = require('path');
+var fs = require('fs');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Create HTTPS server.
  */
-
-var server = http.createServer(app);
+var sslOptions = {
+    key: fs.readFileSync(path.join(__dirname, '../certs', 'server', 'privkey.pem')),
+    cert: fs.readFileSync(path.join(__dirname, '../certs', 'server', 'fullchain.pem'))
+};
+var server = https.createServer(sslOptions, app);
 
 /**
  * Listen on provided port, on all network interfaces.
