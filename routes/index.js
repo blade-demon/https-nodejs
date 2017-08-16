@@ -41,15 +41,18 @@ router.post('/verify', bodyParser.urlencoded({extended: false}), function (req, 
       res.status(500).send(err);
     }
     else {
-      client.nciicCheck(
-        inLicense,
-        '<?xml version="1.0" encoding="utf-8"?>' +
-        '<ROWS><INFO><SBN>上海星游纪信息技术有限公司</SBN></INFO>' +
-        '<ROW><GMSFHM>公民身份号码</GMSFHM>' +
-        '<XM>姓名</XM></ROW>' +
-        '<ROW FSD="200333" YWLX="是否年满18周岁">' +
-        '<GMSFHM>320923198909300019</GMSFHM>' +
-        '<XM>徐紫微</XM></ROW></ROWS>'
+      client.setSecurity(new soap.ClientSSLSecurity('/etc/letsencrypt/live/ziwei89.xyz/privkey.pem', '/etc/letsencrypt/live/ziwei89.xyz/cert.pem'));
+      // client.setSecurity(new soap.ClientSSLSecurity('ssl/privkey.pem', 'ssl/cert.pem'));
+      client.nciicCheck({
+          inLicense: inLicense,
+          inConditions: '<?xml version="1.0" encoding="utf-8"?>' +
+          '<ROWS><INFO><SBN>上海星游纪信息技术有限公司</SBN></INFO>' +
+          '<ROW><GMSFHM>公民身份号码</GMSFHM>' +
+          '<XM>姓名</XM></ROW>' +
+          '<ROW FSD="200333" YWLX="是否年满18周岁">' +
+          '<GMSFHM>320923198909300019</GMSFHM>' +
+          '<XM>徐紫微</XM></ROW></ROWS>'
+      }
       , function (err, response) {
         if (err) {
           console.log(err);
@@ -58,7 +61,7 @@ router.post('/verify', bodyParser.urlencoded({extended: false}), function (req, 
         else {
           res.status(200).send(response);
         }
-      })
+      });
     }
   });
 });
