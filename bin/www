@@ -19,7 +19,8 @@ app.set('port', port);
  */
 var sslOptions = {
     key: fs.readFileSync(path.join(__dirname ,'../certs/privkey.pem')),
-    cert: fs.readFileSync(path.join(__dirname,'../certs/fullchain.pem'))
+    cert: fs.readFileSync(path.join(__dirname,'../certs/fullchain.pem')),
+    // ca: fs.readFileSync(path.join(__dirname,'../certs/chain.crt'))
     // key: fs.readFileSync('/etc/letsencrypt/live/ziwei89.xyz/privkey.pem'),
     // cert: fs.readFileSync('/etc/letsencrypt/live/ziwei89.xyz/fullchain.pem')
 };

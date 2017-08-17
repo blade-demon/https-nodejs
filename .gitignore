@@ -2,5 +2,4 @@ node_modules
 .idea
 .vscode
 test.js
-certs
 npm-debug.log
