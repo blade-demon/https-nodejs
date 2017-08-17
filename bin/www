@@ -11,15 +11,17 @@ var https = require('https');
 var path = require('path');
 var fs = require('fs');
 
-var port = normalizePort(process.env.PORT || '443');
+var port = normalizePort('443');
 app.set('port', port);
 
 /**
  * Create HTTPS server.
  */
 var sslOptions = {
-    key: fs.readFileSync('/etc/letsencrypt/live/ziwei89.xyz/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/ziwei89.xyz/fullchain.pem')
+    key: fs.readFileSync(path.join(__dirname ,'../certs/privkey.pem')),
+    cert: fs.readFileSync(path.join(__dirname,'../certs/fullchain.pem'))
+    // key: fs.readFileSync('/etc/letsencrypt/live/ziwei89.xyz/privkey.pem'),
+    // cert: fs.readFileSync('/etc/letsencrypt/live/ziwei89.xyz/fullchain.pem')
 };
 var server = https.createServer(sslOptions, app);
 //var server = http.createServer(app);
