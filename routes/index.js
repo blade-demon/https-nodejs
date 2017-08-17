@@ -5,8 +5,8 @@ var path = require('path');
 // var ca = fs.readFileSync(path.join(__dirname, '../certs', 'client', 'chain.pem'));
 var inLicense = fs.readFileSync('./license.txt', 'utf-8');
 var rootCas = require('ssl-root-cas/latest').create();
-rootCas
-    .addFile(path.join(__dirname, '../certs/intermediate.crt'));
+//rootCas
+//    .addFile(path.join(__dirname, '../certs/intermediate.crt'));
 // will work with all https requests will all libraries (i.e. request.js)
 require('https').globalAgent.options.ca = rootCas;
 
