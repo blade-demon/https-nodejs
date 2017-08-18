@@ -26,13 +26,13 @@
                 <label for="xmInput">Name</label>
                 <input type="text" class="form-control" id="xmInput" placeholder="Enter name">
             </div>
-            <div class="alert alert-success" hidden>
+            <div class="alert alert-success" style='display:none'>
                 <h4>Well done!</h4>
                 <hr>
                 <p></p>
             </div>
 
-            <div class="alert alert-danger" hidden>
+            <div class="alert alert-danger"style='display:none'>
                 <h4>Unfortunately!</h4>
                 <hr>
                 <p></p>
@@ -57,13 +57,14 @@
 <script type="text/javascript">
     function checkVerify() {
         axios.post('/verify', {id: $("#gmsfhmInput").val(), name: $("#xmInput").val()}).then(function (response) {
-            $(".alert-success").removeAttr("hidden");
+            $(".alert-success").show();
+            $(".alert-danger").hide();
             $(".alert-success p").text(response.data);
         }).catch(function (error) {
             if (error.response) {
-                console.log(error.response.data);
-                $(".alert-danger").removeAttr("hidden");
-                $(".alert-danger p").text(error.response.data.code);
+              $(".alert-success").hide();
+                $(".alert-danger").show();
+                $(".alert-danger p").text(error.response.data);
             }
         });
     }

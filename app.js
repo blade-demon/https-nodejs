@@ -9,10 +9,6 @@ var ejs = require('ejs');
 var index = require('./routes/index');
 var app = express();
 
-// var rootCas = require('ssl-root-cas/latest');
-// rootCas.addFile(path.join(__dirname, '/certs/nciic/nciicCA.txt'));
-// require('https').globalAgent.options.ca = rootCas;
-
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 // view engine setup
