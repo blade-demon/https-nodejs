@@ -1,14 +1,9 @@
 var express = require('express');
 var soap = require('soap');
 var fs = require('fs');
-
+var axios = require('axios');
 var path = require('path');
 var inLicense = fs.readFileSync('./license.txt', 'utf-8');
-var rootCas = require('ssl-root-cas/latest').create();
-rootCas
-  .addFile(path.join(__dirname, '../certs/chain.crt'))
-  .addFile(path.join(__dirname, '../certs/root.crt'));
-require('https').globalAgent.options.ca = rootCas;
 
 var router = express.Router();
 
@@ -23,32 +18,27 @@ router.post('/verify', function (req, res) {
     if (!gmsfhm || !xm) {
         return res.status(400).send('Invalid parameter');
     }
-
-    var url = "https://ws.nciic.org.cn/nciic_ws/services/NciicServices?wsdl";
     var args = {gmsfhm: gmsfhm, xm: xm};
-
-    soap.createClient(url, function (err, client) {
+    var inConditions = '<?xml version="1.0" encoding="utf-8"?>' +
+      '<ROWS><INFO><SBM>上海星游纪信息技术有限公司</SBM></INFO>' +
+      '<ROW><GMSFHM>公民身份号码</GMSFHM>' +
+      '<XM>姓名</XM></ROW>' +
+      '<ROW FSD="200333" YWLX="是否年满18周岁">' +
+      '<GMSFHM>320107199211250313</GMSFHM>' +
+      '<XM>邱叡</XM></ROW></ROWS>';
+    soap.createClient(path.join(__dirname, '../NciicServices.wsdl'), function (err, client) {
         if (err) {
-            console.error("error:", err);
             res.status(500).send(err);
         }
         else {
-            client.nciicCheck({
-                inLicense: inLicense,
-                inConditions: '<?xml version="1.0" encoding="utf-8"?>' +
-                '<ROWS><INFO><SBN>上海星游纪信息技术有限公司</SBN></INFO>' +
-                '<ROW><GMSFHM>公民身份号码</GMSFHM>' +
-                '<XM>姓名</XM></ROW>' +
-                '<ROW FSD="200333" YWLX="是否年满18周岁">' +
-                '<GMSFHM>320923198909300019</GMSFHM>' +
-                '<XM>徐紫微</XM></ROW></ROWS>'
-            }, function (err, response) {
+            client.nciicCheck({inLicense: inLicense, inConditions: inConditions}, function (err, response) {
                 if (err) {
-                    console.log(err);
-                    res.status(500).send(err);
+                    console.log("err:" + err);
+                    res.status(503).send(err);
                 }
                 else {
-                    res.status(200).send(response);
+                    console.log(response);
+                    res.status(200).send(response.out);
                 }
             })
         }
