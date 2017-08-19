@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-demo-https",
+  "name": "nciic webservice",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -14,7 +14,6 @@
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "https": "^1.0.0",
-    "jade": "~1.11.0",
     "moment": "^2.18.1",
     "moment-precise-range-plugin": "^1.2.4",
     "mongoose": "^4.10.8",
